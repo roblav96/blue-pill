@@ -1,0 +1,47 @@
+{
+	"name": "blue-pill",
+	"version": "0.1.0",
+	"description": "Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused",
+	"main": "dist/index.js",
+	"files": [
+		"dist/**/*.js"
+	],
+	"bin": {
+		"bp": "dist/index.js"
+	},
+	"scripts": {
+		"clean": "del dist node_modules",
+		"dev": "del dist; run-p -s dev:*",
+		"dev:tsc": "tsc -w",
+		"dev:watch": "nodemon -q",
+		"prepublishOnly": "del dist; tsc",
+		"start": "del dist; tsc; node dist/index.js"
+	},
+	"dependencies": {
+		"prompts": "latest",
+		"node-notifier": "latest"
+	},
+	"devDependencies": {
+		"@types/node": "latest",
+		"@types/node-notifier": "latest",
+		"@types/prompts": "latest",
+		"del-cli": "latest",
+		"nodemon": "latest",
+		"npm-run-all": "latest",
+		"typescript": "latest"
+	},
+	"nodemonConfig": {
+		"execMap": {
+			"js": "test ! -e dist/index.js && true || node"
+		},
+		"ext": "js",
+		"restartable": false,
+		"watch": "dist/**/*.js"
+	},
+	"keywords": [],
+	"license": "Unlicense",
+	"author": "Robert Laverty <roblav96@gmail.com> (https://github.com/roblav96)",
+	"homepage": "https://github.com/roblav96/blue-pill#readme",
+	"repository": "github:roblav96/blue-pill",
+	"bugs": "https://github.com/roblav96/blue-pill/issues"
+}
