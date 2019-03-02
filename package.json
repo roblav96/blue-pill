@@ -4,41 +4,67 @@
 	"description": "Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused",
 	"main": "dist/index.js",
 	"files": [
-		"dist/**/*.js"
+		"dist",
+		"sounds"
 	],
 	"bin": {
 		"bp": "dist/index.js"
 	},
 	"scripts": {
 		"clean": "del dist node_modules",
-		"dev": "del dist; run-p -s dev:*",
-		"dev:tsc": "tsc -w",
-		"dev:watch": "nodemon -q",
 		"prepublishOnly": "del dist; tsc",
-		"start": "del dist; tsc; node dist/index.js"
+		"start": "del dist; run-p -s start:*",
+		"start:tsc": "tsc -w",
+		"start:watch": "nodemon -q",
+		"test": "del dist; tsc; node dist/index.js"
 	},
 	"dependencies": {
-		"prompts": "latest",
-		"node-notifier": "latest"
+		"dayjs": "latest",
+		"enquirer": "latest",
+		"fs-extra": "latest",
+		"lodash": "latest",
+		"loudness": "latest",
+		"node-notifier": "latest",
+		"node-schedule": "latest",
+		"play-sound": "latest",
+		"prompts": "latest"
 	},
 	"devDependencies": {
+		"@types/fs-extra": "latest",
+		"@types/lodash": "latest",
 		"@types/node": "latest",
 		"@types/node-notifier": "latest",
+		"@types/node-schedule": "latest",
 		"@types/prompts": "latest",
+		"cpy-cli": "latest",
 		"del-cli": "latest",
 		"nodemon": "latest",
 		"npm-run-all": "latest",
+		"source-map-support": "latest",
 		"typescript": "latest"
 	},
 	"nodemonConfig": {
 		"execMap": {
-			"js": "test ! -e dist/index.js && true || node"
+			"js": "test ! -e dist/index.js && true || node -r source-map-support/register"
 		},
 		"ext": "js",
 		"restartable": false,
 		"watch": "dist/**/*.js"
 	},
-	"keywords": [],
+	"keywords": [
+		"rabbit hole",
+		"blue pill",
+		"reminder",
+		"OCD",
+		"ADD",
+		"ADHD",
+		"overthink",
+		"overthinking",
+		"notification",
+		"focus",
+		"focused",
+		"productivity"
+	],
 	"license": "Unlicense",
 	"author": "Robert Laverty <roblav96@gmail.com> (https://github.com/roblav96)",
 	"homepage": "https://github.com/roblav96/blue-pill#readme",
