@@ -58,6 +58,7 @@ let soundsdir = path.resolve(__dirname, '../sounds')
 	console.log(`input ->`, input)
 }).catch(function(error) {
 	console.error(`stdin Error ->`, error)
+	// process.exit(0)
 })
 // })()
 

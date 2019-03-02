@@ -13,9 +13,9 @@
 	"scripts": {
 		"clean": "del dist node_modules",
 		"prepublishOnly": "del dist; tsc",
-		"start": "del dist; run-p -s start:*",
+		"start": "del dist; run-p start:*",
 		"start:tsc": "tsc -w",
-		"start:watch": "nodemon -q",
+		"start:sane": "sane 'node dist/index.js' --glob='dist/**/*.js'",
 		"test": "del dist; tsc; node dist/index.js"
 	},
 	"dependencies": {
@@ -38,18 +38,10 @@
 		"@types/prompts": "latest",
 		"cpy-cli": "latest",
 		"del-cli": "latest",
-		"nodemon": "latest",
 		"npm-run-all": "latest",
-		"source-map-support": "latest",
+		"sane": "latest",
+		"ts-node": "latest",
 		"typescript": "latest"
-	},
-	"nodemonConfig": {
-		"execMap": {
-			"js": "test ! -e dist/index.js && true || node -r source-map-support/register"
-		},
-		"ext": "js",
-		"restartable": false,
-		"watch": "dist/**/*.js"
 	},
 	"keywords": [
 		"rabbit hole",
