@@ -27,4 +27,4 @@ $ bp
 
 ![](doc/screenshot1.png)
 
-> This will remind you to `Build a UI toast notification` via a desktop notification and alert sound every 10 minutes.
+> This will remind you to `Build a UI toast notification` via desktop notification and alert sound every 10 minutes.
