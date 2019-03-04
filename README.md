@@ -1,4 +1,5 @@
 ![](doc/morpheus.png)
+
 > Don't take the 🔴red pill down some rabbit hole, the 🔵blue pill will keep you focused.
 
 # Problem
@@ -23,5 +24,7 @@ $ bp
 ✔ Reminder interval › 10 Minutes
 ✔ Alert sound › Winking Face
 ```
+
 ![](doc/screenshot1.png)
-This will remind you to `Build a UI toast notification` via a desktop notification and alert sound every 10 minutes.
+
+> This will remind you to `Build a UI toast notification` via a desktop notification and alert sound every 10 minutes.
