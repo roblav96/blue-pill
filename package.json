@@ -1,6 +1,6 @@
 {
 	"name": "blue-pill",
-	"version": "0.1.2",
+	"version": "0.1.4",
 	"description": "Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused on a task",
 	"main": "dist/index.js",
 	"files": [

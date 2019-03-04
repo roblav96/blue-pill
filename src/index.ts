@@ -51,26 +51,23 @@ prompts([
 		},
 	},
 ).then(answers => {
-
+	answers.title = answers.title || 'Digesting the blue pill...'
 	ora({ color: 'blue', spinner: 'bouncingBall', interval: 100 }).start()
-
-	let cron = `*/${answers.duration} * * * *`
-	// cron += ' *' // development
-	schedule.scheduleJob(cron, function(date) {
-
-		let title = (answers.title || 'Digesting the blue pill') as string
-		notifier.notify({
-			title: title.toUpperCase(), message: ' ',
-			icon: path.join(__dirname, '../logo/logo.png'),
-		})
-
-		answers.sound && setTimeout(() => player.play(answers.sound), 500)
-
+	notify(answers.title)
+	schedule.scheduleJob(`*/${answers.duration} * * * *`, date => {
+		notify(answers.title, answers.sound)
 	})
-
 }).catch(function(error) {
 	console.error(`answers Error ->`, error)
 	process.exit(0)
 })
+
+function notify(title: string, sound = '') {
+	notifier.notify({
+		title, message: ' ',
+		icon: path.join(__dirname, '../logo/logo.png'),
+	})
+	sound && setTimeout(() => player.play(sound), 500)
+}
 
 
