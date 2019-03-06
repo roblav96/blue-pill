@@ -1,6 +1,6 @@
 {
 	"name": "blue-pill",
-	"version": "0.1.5",
+	"version": "0.1.7",
 	"description": "Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused on a task",
 	"main": "dist/index.js",
 	"files": [
@@ -15,18 +15,21 @@
 		"dist": "del dist; tsc; find . -name *.DS_Store* -type f -delete",
 		"clean": "del dist node_modules",
 		"prepublishOnly": "npm run dist",
-		"start": "del dist; mkdir dist; run-p -s start:*",
-		"start:node": "nodemon -q dist/index.js",
+		"start": "del dist; run-p -s start:*",
+		"start:node": "mkdir dist; nodemon -q dist/index.js",
 		"start:tsc": "tsc -w",
 		"test": "del dist; tsc; node -r source-map-support/register dist/index.js"
 	},
 	"nodemonConfig": {
-		"exec": "test ! -e dist/index.js && exit 0 || node -r source-map-support/register",
+		"exec": "test ! -e dist/index.js && true || node -r source-map-support/register",
 		"ext": "js",
 		"restartable": false,
 		"watch": "dist"
 	},
 	"dependencies": {
+		"configstore": "latest",
+		"fs-extra": "latest",
+		"loudness": "latest",
 		"node-notifier": "latest",
 		"node-schedule": "latest",
 		"ora": "latest",
@@ -34,6 +37,8 @@
 		"prompts": "latest"
 	},
 	"devDependencies": {
+		"@types/configstore": "latest",
+		"@types/fs-extra": "latest",
 		"@types/node": "latest",
 		"@types/node-notifier": "latest",
 		"@types/node-schedule": "latest",
