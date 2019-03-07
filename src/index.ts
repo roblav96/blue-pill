@@ -9,7 +9,7 @@ import * as notifier from 'node-notifier'
 import * as configstore from 'configstore'
 import * as prompts from 'prompts'
 import * as loudness from 'loudness'
-const player = require('play-sound')() as { play(sound: string): void }
+const player = require('play-sound')() as { play(sound: string, cb?: any): void }
 const pkg = fs.readJsonSync(path.join(__dirname, '../package.json'))
 const storage = new configstore(pkg.name)
 
@@ -87,15 +87,12 @@ async function start() {
 
 	ora({ color: 'cyan', spinner: 'bouncingBall', interval: 100 }).start()
 
-	notify(answers)
+	notify(answers); alert(answers)
 	schedule.scheduleJob(`*/${answers.interval} * * * *`, function() {
 		notify(answers); alert(answers)
 	})
 
-} start().catch(function(error) {
-	console.error(`start Error ->`, error)
-	process.exit(0)
-})
+} start().catch(error => console.error(`catch Error ->`, error))
 
 function notify(answers: Answers) {
 	notifier.notify({
@@ -110,7 +107,12 @@ async function alert(answers: Answers) {
 	let volume = await loudness.getVolume()
 	await loudness.setVolume(answers.volume)
 	await new Promise(r => setTimeout(r, 500))
-	await util.promisify(player.play)(answers.sound)
+	await new Promise(resolve => {
+		player.play(answers.sound, error => {
+			if (error) console.error(`player.play Error ->`, error);
+			resolve()
+		})
+	})
 	await loudness.setVolume(volume)
 }
 
