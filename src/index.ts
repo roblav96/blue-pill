@@ -1,6 +1,5 @@
-#! /usr/bin/env node
+#!/usr/bin/env node
 
-const util = require('util'); Object.assign(util.inspect.defaultOptions, { breakLength: Infinity, colors: true, compact: false, depth: 2, maxArrayLength: Infinity, showHidden: false, showProxy: false, sorted: true }); Object.assign(util.inspect.styles, { boolean: 'blue', date: 'green', null: 'red', number: 'magenta', regexp: 'green', special: 'cyan', string: 'green', symbol: 'grey', undefined: 'red' });
 import ora from 'ora'
 import * as fs from 'fs-extra'
 import * as path from 'path'
@@ -9,28 +8,29 @@ import * as notifier from 'node-notifier'
 import * as configstore from 'configstore'
 import * as prompts from 'prompts'
 import * as loudness from 'loudness'
+
 const player = require('play-sound')() as { play(sound: string, cb?: any): void }
 const pkg = fs.readJsonSync(path.join(__dirname, '../package.json'))
 const storage = new configstore(pkg.name)
 
-
-
-interface Answers extends Partial<typeof answers> { }
 const answers = {
-	title: '', subtitle: ' ',
-	interval: 0, sound: '', volume: 0,
+	title: '',
+	subtitle: ' ',
+	interval: 0,
+	sound: '',
+	volume: 0,
 }
+interface Answers extends Partial<typeof answers> {}
 
 async function start() {
-
-	answers.title = await prompts.prompts.text({
+	answers.title = (await prompts.prompts.text({
 		message: `Task description`,
 		initial: storage.get('title.initial'),
-	} as prompts.PromptObject) as any
-	if (answers.title) storage.set('title.initial', answers.title);
+	} as prompts.PromptObject)) as any
+	if (answers.title) storage.set('title.initial', answers.title)
 	answers.title = answers.title || `Task was not described...`
 
-	answers.interval = Number.parseInt(await prompts.prompts.select({
+	answers.interval = Number.parseInt((await prompts.prompts.select({
 		message: `Reminder interval`,
 		initial: 1,
 		choices: [
@@ -40,28 +40,32 @@ async function start() {
 			{ title: '30 Minutes', value: '30' },
 			{ title: '60 Minutes', value: '60' },
 		],
-	} as prompts.PromptObject) as any)
+	} as prompts.PromptObject)) as any)
 
 	let soundsdir = path.join(__dirname, '../sounds')
 	let sounds = fs.readdirSync(soundsdir).reverse()
-	answers.sound = await prompts.prompts.select({
+	answers.sound = (await prompts.prompts.select({
 		message: `Alert sound`,
 		initial: 1,
 		choices: [{ title: `🔕  Silent`, value: '' }].concat(
-			sounds.filter(v => v.endsWith('.wav')).map(sound => ({
-				title: sound.slice(0, -4),
-				value: path.join(soundsdir, sound),
-			}))
+			sounds
+				.filter(v => v.endsWith('.wav'))
+				.map(sound => ({
+					title: sound.slice(0, -4),
+					value: path.join(soundsdir, sound),
+				}))
 		),
-		onState: function({ value }) { value && player.play(value) } as any,
+		onState: function({ value }) {
+			value && player.play(value)
+		} as any,
 		// onRender: async function(this: prompts.PromptObject) {
 		// 	let muted = await loudness.getMuted()
 		// 	if (muted) this.hint = 'Your system volume is muted'
 		// },
-	} as prompts.PromptObject) as any
+	} as prompts.PromptObject)) as any
 
 	if (answers.sound) {
-		answers.volume = Number.parseInt(await prompts.prompts.select({
+		answers.volume = Number.parseInt((await prompts.prompts.select({
 			message: 'Alert volume',
 			initial: 0,
 			choices: [
@@ -71,7 +75,7 @@ async function start() {
 				{ title: '████____', value: '50' },
 				{ title: '████████', value: '100' },
 			],
-		} as prompts.PromptObject) as any)
+		} as prompts.PromptObject)) as any)
 	}
 
 	let words = answers.title.split(' ')
@@ -83,41 +87,44 @@ async function start() {
 		title.push(word)
 	}
 	answers.title = title.join(' ')
-	if (words.length > 0) answers.subtitle = words.join(' ');
+	if (words.length > 0) answers.subtitle = words.join(' ')
 
 	ora({ color: 'cyan', spinner: 'bouncingBall', interval: 100 }).start()
 
-	notify(answers); alert(answers)
+	notify(answers)
+	alert(answers)
 	schedule.scheduleJob(`*/${answers.interval} * * * *`, function() {
-		notify(answers); alert(answers)
+		notify(answers)
+		alert(answers)
 	})
-
-} start().catch(error => console.error(`catch Error ->`, error))
+}
+start().catch(error => console.error(`catch Error ->`, error))
 
 function notify(answers: Answers) {
 	notifier.notify({
-		title: answers.title, message: answers.subtitle,
+		title: answers.title,
+		message: answers.subtitle,
 		icon: path.join(__dirname, '../logo/logo.png'),
 	})
 }
 
 async function alert(answers: Answers) {
 	let muted = await loudness.getMuted()
-	if (muted || !answers.sound) return;
+	if (muted || !answers.sound) return
 	let volume = await loudness.getVolume()
 	await loudness.setVolume(answers.volume)
 	await new Promise(r => setTimeout(r, 500))
 	await new Promise(resolve => {
 		player.play(answers.sound, error => {
-			if (error) console.error(`player.play Error ->`, error);
+			if (error) console.error(`player.play Error ->`, error)
 			resolve()
 		})
 	})
 	await loudness.setVolume(volume)
 }
 
-
-
-declare module 'prompts' { interface PromptObject { onRender(): any } }
-
-
+declare module 'prompts' {
+	interface PromptObject {
+		onRender(): any
+	}
+}
