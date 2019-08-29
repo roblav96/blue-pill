@@ -105,6 +105,7 @@ function notify(answers: Answers) {
 		title: answers.title,
 		message: answers.subtitle,
 		icon: path.join(__dirname, '../logo/logo.png'),
+		wait: true,
 	})
 }
 
