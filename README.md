@@ -1,6 +1,6 @@
 ![](doc/morpheus.png)
 
-> Don't take the 🔴red pill down some rabbit hole, the 🔵blue pill will keep you focused.
+> Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused.
 
 # Problem
 Staying focused on a single task.
