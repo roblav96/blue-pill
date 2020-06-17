@@ -3,6 +3,7 @@
 		"lib": ["esnext"],
 		"module": "esnext",
 		"plugins": [{ "name": "typescript-deno-plugin" }],
+		"strict": false,
 		"target": "esnext"
 	}
 }

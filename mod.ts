@@ -1,14 +1,22 @@
 #!/usr/bin/env -S deno run
 
-// import lodash from 'https://cdn.pika.dev/lodash'
+import * as cliffy from 'https://deno.land/x/cliffy/mod.ts'
 import * as Fae from 'https://deno.land/x/fae/mod.ts'
 import * as fs from 'https://deno.land/std/fs/mod.ts'
-import { Checkbox } from 'https://deno.land/x/cliffy/prompt.ts'
-import { Command, ActionListType } from 'https://deno.land/x/cliffy/command.ts'
-
 import * as module from 'https://deno.land/std/node/module.ts'
-console.log(`module ->`, module.createRequire)
-console.log(`import.meta ->`, import.meta)
+
+const require = module.createRequire(import.meta.url)
+
+// /** @type _ { typeof import("lodash") } */
+// const _ = require('lodash') as typeof import('./node_modules/@types/lodash/index.d.ts')
+// console.log(`_ ->`, _)
+
+// /** @deno-types='./node_modules/rambda/index.d.ts' */
+const R = require('rambda') as typeof import('./node_modules/rambda/index.d.ts')
+console.log(`R ->`, R)
+
+// console.log(`module ->`, module.createRequire)
+// console.log(`import.meta ->`, import.meta)
 // console.log(`require ->`, require)
 
 // console.log(`lodash ->`, lodash)
