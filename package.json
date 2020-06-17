@@ -13,6 +13,11 @@
 	"scripts": {
 		"del": "del dist node_modules"
 	},
+	"dependencies": {
+		"lodash": "^4.17.15",
+		"lodash-es": "^4.17.15",
+		"rambda": "^5.7.0"
+	},
 	"devDependencies": {
 		"@types/node": "^14.0.13",
 		"del-cli": "^3.0.1",

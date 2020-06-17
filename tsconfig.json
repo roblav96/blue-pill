@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"lib": ["esnext"],
+		"module": "esnext",
 		"plugins": [{ "name": "typescript-deno-plugin" }],
-		"target": "es2019"
-	},
-	"include": ["**/*.d.ts", "**/*.ts"]
+		"target": "esnext"
+	}
 }
