@@ -1,53 +1,53 @@
 {
 	"name": "blue-pill",
-	"version": "0.1.10",
+	"version": "0.2.0",
 	"description": "Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused on a task",
 	"main": "dist/index.js",
-	"files": [
-		"dist",
-		"logo",
-		"sounds"
-	],
-	"bin": {
-		"bp": "dist/index.js"
+	"files": "dist",
+	"bin": "blue-pill",
+	"nodemonConfig": {
+		"env": {
+			"NODE_ENV": "development"
+		},
+		"restartable": false
 	},
 	"scripts": {
-		"dist": "del dist; tsc; find . -name *.DS_Store* -type f -delete",
-		"clean": "del dist node_modules",
-		"prepublishOnly": "npm run dist",
-		"start": "del dist; run-p -s start:*",
-		"start:node": "mkdir dist; nodemon -q dist/index.js",
-		"start:tsc": "tsc -w",
-		"test": "del dist; tsc; node -r source-map-support/register dist/index.js"
-	},
-	"nodemonConfig": {
-		"exec": "test ! -e dist/index.js && exit 0 || node -r source-map-support/register",
-		"ext": "js",
-		"restartable": false,
-		"watch": "dist"
+		"del": "del dist node_modules",
+		"prepublishOnly": "del dist; cpy sounds dist/sounds; tsc --declaration",
+		"watch": "del dist; cpy sounds dist/sounds; npm-run-all --silent --parallel watch:*",
+		"watch#nodemon": "wait-for-change dist; nodemon --quiet --watch dist --ext js --exec \"node --require node-env-dev --inspect\" dist/index.js",
+		"watch:watchexec": "wait-for-change dist/index.js && sleep 0.1 && watchexec --restart --watch dist --exts js -- node dist/index.js",
+		"watch:tsc": "tsc --watch --preserveWatchOutput"
 	},
 	"dependencies": {
-		"configstore": "latest",
-		"fs-extra": "latest",
-		"loudness": "latest",
-		"node-notifier": "latest",
-		"node-schedule": "latest",
-		"ora": "latest",
-		"play-sound": "latest",
-		"prompts": "latest"
+		"configstore": "^5.0.1",
+		"enquirer": "^2.3.6",
+		"exit-hook": "^2.2.0",
+		"fs-extra": "^9.0.1",
+		"loudness": "^0.3.0",
+		"node-notifier": "^7.0.1",
+		"node-schedule": "^1.3.2",
+		"ora": "^4.0.4",
+		"play-sound": "^1.1.3",
+		"prompts": "^2.3.2",
+		"rambda": "^5.9.0",
+		"rambdax": "^3.7.0"
 	},
 	"devDependencies": {
-		"@types/configstore": "latest",
-		"@types/fs-extra": "latest",
-		"@types/node": "latest",
-		"@types/node-notifier": "latest",
-		"@types/node-schedule": "latest",
-		"@types/prompts": "latest",
-		"del-cli": "latest",
-		"nodemon": "latest",
-		"npm-run-all": "latest",
-		"source-map-support": "latest",
-		"typescript": "latest"
+		"@types/fs-extra": "^9.0.1",
+		"@types/node": "^14.0.18",
+		"@types/prompts": "^2.0.8",
+		"cpy-cli": "^3.1.1",
+		"cross-env": "^7.0.2",
+		"del-cli": "^3.0.1",
+		"dts-generate": "^1.4.5",
+		"make-dir-cli": "^2.0.0",
+		"node-env-dev": "^1.8.25",
+		"nodemon": "^2.0.4",
+		"npm-run-all": "^4.1.5",
+		"ts-node": "^8.10.2",
+		"typescript": "^3.9.6",
+		"wait-for-change": "^1.1.1"
 	},
 	"keywords": [
 		"rabbit hole",
