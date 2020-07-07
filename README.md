@@ -17,9 +17,9 @@ npm install -g blue-pill
 ```
 
 # Usage
-From your terminal, input `bp` to start the interactive task builder:
+From your terminal, input `blue-pill` to start the interactive task builder:
 ```shell
-$ bp
+$ blue-pill
 ✔ Task description … Build a UI toast notification
 ✔ Reminder interval › 10 Minutes
 ✔ Alert sound › Winking Face
