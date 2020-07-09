@@ -3,8 +3,12 @@
 	"version": "0.2.0",
 	"description": "Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused on a task",
 	"main": "dist/index.js",
-	"files": "dist",
-	"bin": "blue-pill",
+	"files": [
+		"dist"
+	],
+	"bin": {
+		"blue-pill": "dist/index.js"
+	},
 	"nodemonConfig": {
 		"env": {
 			"NODE_ENV": "development"
@@ -13,8 +17,8 @@
 	},
 	"scripts": {
 		"del": "del dist node_modules",
-		"prepublishOnly": "del dist; cpy sounds dist/sounds; tsc --declaration",
-		"watch": "del dist; cpy sounds dist/sounds; npm-run-all --silent --parallel watch:*",
+		"prepublishOnly": "del dist; cpy assets dist/assets; tsc --declaration",
+		"watch": "del dist; cpy assets dist/assets; npm-run-all --silent --parallel watch:*",
 		"watch#nodemon": "wait-for-change dist; nodemon --quiet --watch dist --ext js --exec \"node --require node-env-dev --inspect\" dist/index.js",
 		"watch:watchexec": "wait-for-change dist/index.js && sleep 0.1 && watchexec --restart --watch dist --exts js -- node dist/index.js",
 		"watch:tsc": "tsc --watch --preserveWatchOutput"
