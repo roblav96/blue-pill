@@ -19,7 +19,7 @@
 		"del": "del dist node_modules",
 		"prepublishOnly": "del dist; cpy assets dist/assets; tsc --declaration",
 		"watch": "del dist; cpy assets dist/assets; npm-run-all --silent --parallel watch:*",
-		"watch#nodemon": "wait-for-change dist; nodemon --quiet --watch dist --ext js --exec \"node --require node-env-dev --inspect\" dist/index.js",
+		"#watch:nodemon": "wait-for-change dist; nodemon --quiet --watch dist --ext js --exec \"node --require node-env-dev --inspect\" dist/index.js",
 		"watch:watchexec": "wait-for-change dist/index.js && sleep 0.1 && watchexec --restart --watch dist --exts js -- node dist/index.js",
 		"watch:tsc": "tsc --watch --preserveWatchOutput"
 	},
@@ -39,7 +39,7 @@
 	},
 	"devDependencies": {
 		"@types/fs-extra": "^9.0.1",
-		"@types/node": "^14.0.22",
+		"@types/node": "^14.0.23",
 		"@types/prompts": "^2.0.8",
 		"cpy-cli": "^3.1.1",
 		"cross-env": "^7.0.2",
