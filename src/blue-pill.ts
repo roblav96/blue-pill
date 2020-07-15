@@ -1,12 +1,74 @@
 #!/usr/bin/env node
 
-import { Prompt, prompt } from 'enquirer'
+import 'node-env-dev'
+import * as Configstore from 'configstore'
+import * as execa from 'execa'
+import * as fs from 'fs-extra'
+import * as loudness from 'loudness'
+import * as notifier from 'node-notifier'
+import * as os from 'os'
+import * as path from 'path'
+import * as pify from 'pify'
+import * as schedule from 'node-schedule'
+import * as shell from 'shelljs'
+import * as which from 'which'
+import { Player } from './player'
+import { prompt } from 'enquirer'
+
+const storage = new Configstore(path.parse(__filename).name)
+
+const players = {
+	play: '--no-show-progress',
+	mpv: '--no-terminal',
+	mplayer: '',
+	afplay: '',
+	aplay: '',
+	omxplayer: '',
+	mpg123: '',
+	mpg321: '',
+	cmdmp3: '',
+}
+let player = Object.keys(players).find((v) => !!which.sync(v, { all: false, nothrow: true }))
+console.log('player ->', player)
+
+// const player = require('play-sound')() as {
+// 	player: string
+// 	players: string[]
+// 	play(sound: string, next?: (error?: Error) => void): void
+// 	// pplay(sound: string): Promise<void>
+// }
+// if (os.platform() == 'darwin') {
+// 	player.player = 'play'
+// }
+// // const pplayer = pify(player)
+// // Object.assign(player, { pplay: util.promisify(player.play) })
+// // console.log('player ->', player)
 
 process.nextTick(async () => {
+	console.time(`which`)
+	for (let i = 0; i < 100; i++) {
+		let player = which.sync('afplay', { nothrow: true })
+		// let player = shell.which('afplay').toString()
+		console.log('player ->', player)
+	}
+	console.timeEnd(`which`)
+
+	return
+
+	let sound = path.join(__dirname, 'assets/Ping.ogg')
+	console.log('sound ->', sound)
+	let played = await execa.node
+
+	// console.log('player ->', player)
+	// let played = player.play(sound, function (error) {
+	// 	if (error) console.error(`player.play -> %O`, error)
+	// })
+	// console.log('played ->', played)
+
 	let answer = await prompt({
-		type: 'input',
-		name: 'description',
 		message: 'Task description',
+		name: 'description',
+		type: 'input',
 	})
 	console.log('answer ->', answer)
 })
