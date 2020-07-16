@@ -9,6 +9,8 @@ import * as notifier from 'node-notifier'
 import * as os from 'os'
 import * as path from 'path'
 import * as pify from 'pify'
+import * as R from 'rambda'
+import * as S from 'string-fn'
 import * as schedule from 'node-schedule'
 import * as shell from 'shelljs'
 import * as which from 'which'
@@ -28,16 +30,20 @@ interface Answers extends Partial<typeof answers> {}
 
 process.nextTick(async () => {
 	let { title = '' } = await prompt({
-		format: (value) => value.trim(),
 		initial: storage.get('prompt.initial.title'),
 		message: 'Task description',
 		name: 'title',
 		required: true,
-		result: (value) => value.trim(),
+		result: (value) => S.trim(value),
 		type: 'input',
-		validate: (value) => !!value.trim(),
+		validate: (value) => {
+			console.log(`this ->`, this)
+
+			return !!value.trim()
+		},
 	})
 	console.log(`title ->`, title)
+	R.when
 
 	return
 
@@ -46,13 +52,18 @@ process.nextTick(async () => {
 	let sound = path.join(__dirname, 'assets/Ping.ogg')
 	console.log('sound ->', sound)
 	let played = await player.play(sound)
-	console.log('played ->', played)
+	console.log('playes ->', played)
 })
 
-if (!process.DEVELOPMENT) {
-	process.once('uncaughtException', () => process.exit(0))
-	process.once('unhandledRejection', () => process.exit(0))
+function exit(code = 0) {
+	process.nextTick(() => process.exit(code))
 }
+if (!process.DEVELOPMENT) {
+	process.once('uncaughtException', () => exit(1))
+	process.once('unhandledRejection', () => exit(1))
+}
+
+//
 
 // import ora from 'ora'
 // import * as fs from 'fs-extra'

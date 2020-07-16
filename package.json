@@ -4,21 +4,29 @@
 	"description": "Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused on a task",
 	"main": "dist/index.js",
 	"files": [
+		"assets",
 		"dist"
 	],
 	"bin": {
 		"blue-pill": "dist/index.js"
 	},
 	"nodemonConfig": {
-		"restartable": false
+		"env": {
+			"NODE_ENV": "development"
+		},
+		"exec": "node --inspect",
+		"ext": "js",
+		"restartable": false,
+		"verbose": true,
+		"watch": "dist"
 	},
 	"scripts": {
 		"del": "del dist node_modules",
-		"prepublishOnly": "del dist; cpy assets dist/assets; tsc --declaration",
-		"watch": "del dist; cpy assets dist/assets; cross-env NODE_ENV=development npm-run-all --silent --parallel watch:*",
-		"#watch:watchexec": "wait-for-change dist/index.js && watchexec --no-shell --restart --watch dist --exts js -- node --inspect dist/index.js",
-		"watch:nodemon": "wait-for-change dist/index.js && nodemon --quiet --watch dist --ext js --exec 'node --inspect' -- dist/index.js",
-		"watch:tsc": "tsc --watch --preserveWatchOutput"
+		"prepublishOnly": "del dist; tsc --declaration",
+		"watch": "del dist; npm-run-all --silent --parallel watch:*",
+		"watch:nodemon": "wait-for-change dist/index.js && delay 0.1 && nodemon dist/index.js",
+		"watch:tsc": "tsc --watch --preserveWatchOutput",
+		"#watch:watchexec": "wait-for-change dist/index.js && delay 0.1 && watchexec --verbose --no-shell --restart --watch dist --exts js --no-default-ignore -- node --inspect dist/index.js"
 	},
 	"dependencies": {
 		"configstore": "^5.0.1",
@@ -50,6 +58,7 @@
 		"cpy-cli": "^3.1.1",
 		"cross-env": "^7.0.2",
 		"del-cli": "^3.0.1",
+		"delay-cli": "^1.1.0",
 		"dts-generate": "^1.4.5",
 		"make-dir-cli": "^2.0.0",
 		"node-env-dev": "^1.8.40",
