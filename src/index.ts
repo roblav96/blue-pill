@@ -12,9 +12,9 @@ import * as pify from 'pify'
 import * as R from 'rambda'
 import * as S from 'string-fn'
 import * as schedule from 'node-schedule'
-import * as shell from 'shelljs'
 import * as which from 'which'
 import { player } from './player'
+import { getSounds } from './sounds'
 import { prompt } from 'enquirer'
 
 const storage = new Configstore('blue-pill')
@@ -29,6 +29,10 @@ const answers = {
 interface Answers extends Partial<typeof answers> {}
 
 process.nextTick(async () => {
+	let sounds = await getSounds()
+	console.log('sounds ->', sounds)
+	return
+
 	let { title = '' } = await prompt({
 		initial: storage.get('prompt.initial.title'),
 		message: 'Task description',
@@ -43,11 +47,10 @@ process.nextTick(async () => {
 		},
 	})
 	console.log(`title ->`, title)
-	R.when
 
 	return
 
-	let sounds = await fs.readdir(path.join(__dirname, 'assets'))
+	// let sounds = await fs.readdir(path.join(__dirname, 'assets'))
 
 	let sound = path.join(__dirname, 'assets/Ping.ogg')
 	console.log('sound ->', sound)

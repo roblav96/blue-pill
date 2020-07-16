@@ -1,10 +1,8 @@
 import * as execa from 'execa'
 import * as fs from 'fs-extra'
 import * as loudness from 'loudness'
-
 import * as path from 'path'
 import * as which from 'which'
-import * as tf from 'type-fest'
 
 type Options = ConstructorParameters<typeof Player>[0]
 export interface Player extends Options {}

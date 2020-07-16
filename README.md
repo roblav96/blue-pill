@@ -1,4 +1,4 @@
-![](doc/morpheus.png)
+![](assets/images/morpheus.png)
 
 > Don't take the 🔴 red pill down some rabbit hole, the 🔵 blue pill will keep you focused.
 
@@ -25,6 +25,6 @@ $ blue-pill
 ✔ Alert sound › Winking Face
 ```
 
-![](doc/screenshot1.png)
+![](assets/images/screenshot1.png)
 
 > This will remind you to `Build a UI toast notification` via desktop notification and alert sound every 10 minutes.
