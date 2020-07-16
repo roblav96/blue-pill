@@ -4,7 +4,7 @@
 		"module": "commonjs",
 		"outDir": "dist",
 		"sourceMap": true,
-		"target": "esnext"
+		"target": "es2015"
 	},
 	"exclude": ["dist", "node_modules"],
 	"include": ["src/**/*.d.ts", "src/**/*.ts"]
