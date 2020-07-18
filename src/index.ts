@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import 'node-env-dev'
-import * as Configstore from 'configstore'
 import * as execa from 'execa'
 import * as fs from 'fs-extra'
 import * as loudness from 'loudness'
@@ -13,11 +12,12 @@ import * as R from 'rambda'
 import * as S from 'string-fn'
 import * as schedule from 'node-schedule'
 import * as which from 'which'
+import storage from './storage'
+import { getSounds } from './assets'
 import { player } from './player'
-import { getSounds } from './sounds'
-import { prompt } from 'enquirer'
 
-const storage = new Configstore('blue-pill')
+// @ts-ignore
+import { prompt, Select } from 'enquirer'
 
 const answers = {
 	title: '',
@@ -29,33 +29,44 @@ const answers = {
 interface Answers extends Partial<typeof answers> {}
 
 process.nextTick(async () => {
+	// let { title = '' } = await prompt({
+	// 	initial: storage.get('prompt.initial.title'),
+	// 	message: 'Task description',
+	// 	name: 'title',
+	// 	required: true,
+	// 	result: (value) => S.trim(value),
+	// 	type: 'input',
+	// 	validate: (value) => !!value.trim(),
+	// })
+	// storage.set('prompt.initial.title', title)
+	// console.log(`title ->`, title)
+
 	let sounds = await getSounds()
-	console.log('sounds ->', sounds)
-	return
-
-	let { title = '' } = await prompt({
-		initial: storage.get('prompt.initial.title'),
-		message: 'Task description',
-		name: 'title',
+	// let { soundName = '' } = await prompt({
+	let soundprompt = new Select({
+		// choices: sounds.map((v) => ({ name: v.path, value: v.name })),
+		choices: sounds.map((v) => v.name),
+		initial: 3,
+		message: 'Notification sound',
+		name: 'soundName',
 		required: true,
-		result: (value) => S.trim(value),
-		type: 'input',
-		validate: (value) => {
-			console.log(`this ->`, this)
-
-			return !!value.trim()
-		},
+		type: 'select',
 	})
-	console.log(`title ->`, title)
+	soundprompt.on('choice', (...value) => {
+		console.log(`choice ->`, value)
+	})
+	let result = await soundprompt.run()
 
-	return
+	console.log(`result ->`, result)
+	// storage.set('prompt.initial.sound', sound)
+	// console.log(`sound ->`, sound)
 
 	// let sounds = await fs.readdir(path.join(__dirname, 'assets'))
 
-	let sound = path.join(__dirname, 'assets/Ping.ogg')
-	console.log('sound ->', sound)
-	let played = await player.play(sound)
-	console.log('playes ->', played)
+	// let sound = path.join(__dirname, 'assets/Ping.ogg')
+	// console.log('sound ->', sound)
+	// let played = await player.play(sound)
+	// console.log('playes ->', played)
 })
 
 function exit(code = 0) {
