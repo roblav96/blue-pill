@@ -36,7 +36,7 @@ export async function getSounds() {
 	// return sounds
 }
 
-function getAssetsPath(media = '' as 'images' | 'sounds') {
+export function getAssetsPath(media = '' as 'images' | 'sounds') {
 	for (let folder = __dirname; ; ) {
 		let assets = path.join(folder, 'assets')
 		if (fs.pathExistsSync(assets)) {
